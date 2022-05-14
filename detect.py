@@ -2,6 +2,11 @@ import cv2
 
 cap = cv2.VideoCapture(0)
 
+classNames = []
+with open('coco.names', 'rt') as f:
+    classNames = f.read().rstrip('\n').rsplit('\n')
+print(classNames)
+
 while True:
     success, img = cap.read()
 
