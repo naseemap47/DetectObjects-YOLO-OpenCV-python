@@ -45,16 +45,14 @@ while True:
     x, y, w, h = bbox[0], bbox[1], bbox[2], bbox[3]
     cv2.rectangle(
         img, (x, y), (x + w, y + h),
-        (0, 255, 0), 2
+        (255, 0, 255), 3
     )
     cv2.putText(
-        img, f'{classNames[classId]}', (x, y),
+        img, f'{classNames[classId]} {int(conf*100)}%', (x, y-6),
         cv2.FONT_HERSHEY_PLAIN, 1.5,
-        (0, 0, 255), 2
+        (0, 255, 0), 2
     )
-
-    # print(bbox, classId, conf)
-
+    
     cv2.imshow("Web-cam", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
