@@ -20,10 +20,15 @@ def findObjects(outputs, img, confThreshold=0.6, nmsThreshold=0.3):
                 classIds.append(classId)
                 conf.append(float(confidence))
     indices = cv2.dnn.NMSBoxes(bbox, conf, confThreshold, nmsThreshold)
-    indices = indices.astype(int)
-    # print(indices)
-    bbox = np.array(bbox)[indices.astype(int)][0]
-    # bbox = bbox[indices] # It will Throw An ERROR
-    classIds = np.array(classIds)[indices.astype(int)][0]
-    conf = np.array(conf)[indices.astype(int)][0]
+    if len(indices) != 0:
+        # print('indices', len(indices))
+        # print(bbox, classIds, conf)
+        bbox = np.array(bbox)[indices.astype(int)][0]
+        # bbox = bbox[indices]  # It will Throw An ERROR
+        classIds = np.array(classIds)[indices.astype(int)][0]
+        conf = np.array(conf)[indices.astype(int)][0]
+    else:
+        bbox = [0, 0, 0, 0]
+        classIds = 0
+        conf = 0
     return bbox, classIds, conf
