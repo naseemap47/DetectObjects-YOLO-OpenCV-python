@@ -5,6 +5,7 @@ from utils import findObjects
 # Parameters
 w_h_target = 320
 confThreshold = 0.6
+nmsThreshold = 0.3  # value reduces, accuracy increases
 ###############
 
 cap = cv2.VideoCapture(0)
@@ -40,19 +41,17 @@ while True:
     # print(outLayers)
 
     outputs = net.forward(outLayers)
-    # print(outputs[0].shape)
-    # print(outputs[1].shape)
-    # print(outputs[2].shape)
-    # print(outputs[0][0])
-
     bbox, classId, conf = findObjects(outputs, img, confThreshold=confThreshold)
-    # More than one boxes coming from Output
-    for i in bbox:
-        x, y, w, h = i[0], i[1], i[2], i[3]
-        cv2.rectangle(
-            img, (x, y), (x + w, y + h),
-            (0, 255, 0), 1
-        )
+    x, y, w, h = bbox[0], bbox[1], bbox[2], bbox[3]
+    cv2.rectangle(
+        img, (x, y), (x + w, y + h),
+        (0, 255, 0), 2
+    )
+    cv2.putText(
+        img, f'{classNames[classId]}', (x, y),
+        cv2.FONT_HERSHEY_PLAIN, 1.5,
+        (0, 0, 255), 2
+    )
 
     # print(bbox, classId, conf)
 
