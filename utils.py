@@ -1,7 +1,8 @@
+import cv2.dnn
 import numpy as np
 
 
-def findObjects(outputs, img, confThreshold=0.6):
+def findObjects(outputs, img, confThreshold=0.6, nmsThreshold=0.3):
     h_img, w_img, channel = img.shape
     bbox = []
     classIds = []
@@ -18,4 +19,11 @@ def findObjects(outputs, img, confThreshold=0.6):
                 bbox.append([x, y, w, h])
                 classIds.append(classId)
                 conf.append(float(confidence))
+    indices = cv2.dnn.NMSBoxes(bbox, conf, confThreshold, nmsThreshold)
+    indices = indices.astype(int)
+    # print(indices)
+    bbox = np.array(bbox)[indices.astype(int)][0]
+    # bbox = bbox[indices] # It will Throw An ERROR
+    classIds = np.array(classIds)[indices.astype(int)][0]
+    conf = np.array(conf)[indices.astype(int)][0]
     return bbox, classIds, conf
