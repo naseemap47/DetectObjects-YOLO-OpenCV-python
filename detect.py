@@ -1,8 +1,10 @@
 import cv2
+from utils import findObjects
 
 ##############
 # Parameters
 w_h_target = 320
+confThreshold = 0.6
 ###############
 
 cap = cv2.VideoCapture(0)
@@ -38,10 +40,13 @@ while True:
     # print(outLayers)
 
     outputs = net.forward(outLayers)
-    print(outputs[0].shape)
-    print(outputs[1].shape)
-    print(outputs[2].shape)
-    print(outputs[0][0])
+    # print(outputs[0].shape)
+    # print(outputs[1].shape)
+    # print(outputs[2].shape)
+    # print(outputs[0][0])
+
+    bbox, classId, conf = findObjects(outputs, img, confThreshold=confThreshold)
+    print(bbox, classId, conf)
 
     cv2.imshow("Web-cam", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
