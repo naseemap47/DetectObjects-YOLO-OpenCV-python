@@ -46,7 +46,15 @@ while True:
     # print(outputs[0][0])
 
     bbox, classId, conf = findObjects(outputs, img, confThreshold=confThreshold)
-    print(bbox, classId, conf)
+    # More than one boxes coming from Output
+    for i in bbox:
+        x, y, w, h = i[0], i[1], i[2], i[3]
+        cv2.rectangle(
+            img, (x, y), (x + w, y + h),
+            (0, 255, 0), 1
+        )
+
+    # print(bbox, classId, conf)
 
     cv2.imshow("Web-cam", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
