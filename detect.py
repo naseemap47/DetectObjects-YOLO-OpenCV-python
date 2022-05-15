@@ -26,9 +26,16 @@ while True:
         [0, 0, 0], 1, crop=False
     )
     net.setInput(blob)
-
     layerNames = net.getLayerNames()
-    print(layerNames)
+    # print(layerNames)
+
+    # Unconnected Out Layers (prediction Layers)
+    outLayerIndex = net.getUnconnectedOutLayers()
+    # print(outLayerIndex)
+    outLayers = []
+    for i in outLayerIndex:
+        outLayers.append(layerNames[i - 1])
+    print(outLayers)
 
     cv2.imshow("Web-cam", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
