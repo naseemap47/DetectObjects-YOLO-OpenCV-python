@@ -35,7 +35,13 @@ while True:
     outLayers = []
     for i in outLayerIndex:
         outLayers.append(layerNames[i - 1])
-    print(outLayers)
+    # print(outLayers)
+
+    outputs = net.forward(outLayers)
+    print(outputs[0].shape)
+    print(outputs[1].shape)
+    print(outputs[2].shape)
+    print(outputs[0][0])
 
     cv2.imshow("Web-cam", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
